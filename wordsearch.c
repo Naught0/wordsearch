@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <time.h>
 #define STRLEN 30 
 
 typedef struct word{
@@ -18,6 +19,9 @@ void revStr(char[], char[]);
 void blankStr(char[]);
 
 int main(){
+    // seed random #
+    srand(time(NULL));
+
 	// delcarations
     int boardSize, numWords;
     char tempStr[STRLEN];
@@ -44,15 +48,20 @@ int main(){
     	// Decide horizontal, vertical, backwards
     for(int i = 0; i < numWords; i++){
         int decide = randNum(2);
-        printf("Iteration: %d\nDecide = %d\n", i, decide);
 
         switch(decide){
         	case 0:
             case 1:
+                int ranX = randNum(boardSize - 1);
+                int ranY = randNum(boardSize - 1);
+                while(wordSearch[ranX][ranY] == '\0'){                    
+                    for(int j = 0; j < strlen(wordBank[i].word); j++){
+
+                    }
+                }
         		break;
         	case 2:
         		revStr(wordBank[i].word, tempStr);
-                printf("%s = %s\n", wordBank[i].word, tempStr);
                 blankStr(tempStr);
         		break;
         	default:
