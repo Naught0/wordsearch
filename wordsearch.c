@@ -15,11 +15,13 @@ void genArray(int x, char[x][x]);
 void getWords(int, word[]);
 int randNum(int);
 void revStr(char[], char[]);
+void blankStr(char[]);
 
 int main(){
 	// delcarations
     int boardSize, numWords;
-    char tempStr[STRLEN]; 
+    char tempStr[STRLEN];
+    blankStr(tempStr);
 
     // welcome dialogue
     welcome();
@@ -42,6 +44,7 @@ int main(){
     	// Decide horizontal, vertical, backwards
     for(int i = 0; i < numWords; i++){
         int decide = randNum(2);
+        printf("Iteration: %d\nDecide = %d\n", i, decide);
 
         switch(decide){
         	case 0:
@@ -49,6 +52,8 @@ int main(){
         		break;
         	case 2:
         		revStr(wordBank[i].word, tempStr);
+                printf("%s = %s\n", wordBank[i].word, tempStr);
+                blankStr(tempStr);
         		break;
         	default:
         		break;
@@ -110,7 +115,14 @@ int randNum(int limit){
 }
 
 void revStr(char orig[], char new[]){
-	for(len = strlen(orig); len > 0; len--){
-		for(int i = 0; i < len)
-	}
+    int len = strlen(orig);
+    for(int i = len; i >= 0; i--){
+        new[len - i - 1] = orig[i];
+    }
+}
+
+void blankStr(char str[]){
+    for(int i = 0; i < STRLEN; i++){
+        str[i] = '\0';
+    }
 }
