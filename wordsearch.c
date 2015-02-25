@@ -109,11 +109,7 @@ int randNum(int limit){
     return retval;
 }
 
-void makeVert(char orig[], int len, char new[]){
-	return;
-}
-
-void makeBack(char orig[], char new[]){
+void revStr(char orig[], char new[]){
 	for(len = strlen(orig); len > 0; len--){
 		for(int i = 0; i < len)
 	}
