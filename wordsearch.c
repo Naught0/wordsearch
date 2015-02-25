@@ -14,12 +14,11 @@ int getNumWords();
 void genArray(int x, char[x][x]);
 void getWords(int, word[]);
 int randNum(int);
-void makeVert(char[], int, char[]);
-void makeBack(char[], int, char[]);
+void revStr(char[], char[]);
 
 int main(){
 	// delcarations
-    int boardSize, numWords, decide;
+    int boardSize, numWords;
     char tempStr[STRLEN]; 
 
     // welcome dialogue
@@ -41,18 +40,19 @@ int main(){
 
     // place words in array
     	// Decide horizontal, vertical, backwards
-    decide = randNum(2);
-    switch(decide){
-    	case 0:
-    		break;
-    	case 1:
-    		makeVert(foo[], STRLEN, tempStr);
-    		break;
-    	case 2:
-    		makeBack();
-    		break;
-    	default:
-    		break;
+    for(int i = 0; i < numWords; i++){
+        int decide = randNum(2);
+
+        switch(decide){
+        	case 0:
+            case 1:
+        		break;
+        	case 2:
+        		revStr(wordBank[i].word, tempStr);
+        		break;
+        	default:
+        		break;
+        }
     }
     	// transform if needed
     	// place
@@ -113,7 +113,7 @@ void makeVert(char orig[], int len, char new[]){
 	return;
 }
 
-void makeBack(char orig[], int len, char new[]){
+void makeBack(char orig[], char new[]){
 	for(len = strlen(orig); len > 0; len--){
 		for(int i = 0; i < len)
 	}
