@@ -14,7 +14,7 @@ int getBoardSize();
 int getNumWords();
 void genArray(int x, char[x][x]);
 void getWords(int, word[]);
-int randNum(int);
+int randInt(int);
 void revStr(char[], char[]);
 void blankStr(char[]);
 void displayBoard(int s, char wordSearch[s][s]);
@@ -26,12 +26,13 @@ int checkVert(int s, char wordSearch[s][s], char[], int *x, int *y);
 void placeVert(int s, char wordSearch[s][s], char word[], int x, int y);
 
 int main(){
-    // seed random #
+    // seed random number   
     srand(time(NULL));
 
 	// delcarations
-    int boardSize, numWords;
+    int boardSize, numWords, initx, inity, choose;
     char tempStr[STRLEN];
+    // fills tempStr with null characters
     blankStr(tempStr);
 
     // welcome dialogue
@@ -53,32 +54,37 @@ int main(){
 
     // place words in array
     for(int i = 0; i < numWords; i++){
-        int initx = 0, inity = 0;
-        // Decide horizontal, vertical, backwards
-        int decide = randNum(2);
-            if(decide == 0 || decide == 2){
-                while(checkHoriz(boardSize, wordSearch, wordBank[i].word, &initx, &inity)){
-                    placeHoriz(boardSize, wordSearch, wordBank[i].word, initx, inity);
-                    printf("Placed!\n");
-                    break;
-                }
-            }
-            if(decide == 1){
-                while(checkVert(boardSize, wordSearch, wordBank[i].word, &initx, &inity)){
-                    placeVert(boardSize, wordSearch, wordBank[i].word, initx, inity);
-                    printf("Placed!\n");
-                    break;
-                }
-            }
-            // Reverse
-                /*
-        		revStr(wordBank[i].word, tempStr);
-                blankStr(tempStr);*/
+       // reverse?
+        choose = randInt(3);
+        switch(choose){
+            case 0:
+                checkHoriz(boardSize, wordSearch, wordBank[i].word, &initx, &inity);
+                placeHoriz(boardSize, wordSearch, wordBank[i].word, initx, inity);
+                break;
+            case 1:
+                revStr(wordBank[i].word, tempStr);
+                printf("Reversed string is: %s\n", tempStr);
+                checkHoriz(boardSize, wordSearch, tempStr, &initx, &inity);
+                placeHoriz(boardSize, wordSearch, tempStr, initx, inity);
+                blankStr(tempStr);
+                break;
+            case 2:
+                checkVert(boardSize, wordSearch, wordBank[i].word, &initx, &inity);
+                placeVert(boardSize, wordSearch, wordBank[i].word, initx, inity);
+                break;
+            case 3:
+                revStr(wordBank[i].word, tempStr);
+                printf("Reversed string is: %s\n", tempStr);
+                checkVert(boardSize, wordSearch, tempStr, &initx, &inity);
+                placeVert(boardSize, wordSearch, tempStr, initx, inity);
+                blankStr(tempStr);
+                break;
+            default:
+                break;
+        }
     }
+    
     displayBoard(boardSize, wordSearch);
-    	// transform if needed
-    	// place
-
 }
 
 void placeHoriz(int s, char wordSearch[s][s], char word[], int x, int y){
@@ -89,8 +95,9 @@ void placeHoriz(int s, char wordSearch[s][s], char word[], int x, int y){
 }
 
 int checkHoriz(int s, char wordSearch[s][s], char word[], int *x, int *y){
-    *x = randNum(s);
-    *y = randNum(s);
+    *x = randInt(s);
+    *y = randInt(s - strlen(word));
+
     int len = strlen(word);
     for(int i = 0; i < len; i++){ 
         if(wordSearch[*x][*y + i] != '.'){
@@ -108,8 +115,8 @@ void placeVert(int s, char wordSearch[s][s], char word[], int x, int y){
 }
 
 int checkVert(int s, char wordSearch[s][s], char word[], int *x, int *y){
-    *x = randNum(s);
-    *y = randNum(s);
+    *x = randInt(s - strlen(word));
+    *y = randInt(s);
     int len = strlen(word);
     for(int i = 0; i < len; i++){ 
         if(wordSearch[*x + i][*y] != '.'){
@@ -157,16 +164,8 @@ void genArray(int aSize, char arr[aSize][aSize]){
 	}
 }
 
-// return a random number between 0 and limit inclusive.
-int randNum(int limit){
-    int divisor = RAND_MAX / (limit + 1);
-    int retval;
-
-    do{ 
-        retval = rand() / divisor;
-    } while (retval > limit);
-
-    return retval;
+int randInt(int limit){
+    return rand() % limit + 1;
 }
 
 void revStr(char orig[], char new[]){
